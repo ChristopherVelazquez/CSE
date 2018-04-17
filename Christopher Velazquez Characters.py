@@ -22,8 +22,9 @@ class Character(object):
         if self.health <= 0:
             print("You died...")
 
-L_Soldier = Character (89,30,"A generic enemy soldier", None, 34, 25, 25, 'Iron_lance', None)
-Archer = Character()
+Rabbid_Wolf = Character()
+
+
 
 
 
