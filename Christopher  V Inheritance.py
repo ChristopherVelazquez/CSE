@@ -114,7 +114,7 @@ class Axe(Weapon):
     def __init__(self, name, damage, close_range, damage_up):
         super(Axe, self).__init__(name, damage)
         self.close_range = close_range
-        self.defense = damage_up
+        self.damage_up = damage_up
 
     def Attack (self_target):
         print("You attack with your %s." % Axe)
@@ -126,6 +126,22 @@ class Magic_Robe(Armor):
 
     def protection(self):
         print("You took less magic damage, and gained more magic thanks to your %s" % Magic_Robe)
+
+class Rusted_Axe(Axe):
+    def __init__(self, name, close_range, damage_up):
+        super(Rusted_Axe, self).__init__(name, damage_up, close_range)
+
+    def Attack(self_target):
+        print("You attack with your %s." % Rusted_Axe)
+
+class Monster_Weapon(Weapon):
+    def __init__(self, name, damage, close_range, distant_range):
+        super(Monster_Weapon, self).__init__(name, damage)
+        self.close_range = close_range
+        self.distant_range = distant_range
+
+    def Attack(self_target):
+        print("The enemy attack with their %s." % Monster_Weapon)
 
 
 
