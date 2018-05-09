@@ -6,6 +6,15 @@ class Item(object):
         print("You picked up %s" % self.name)
 
 
+class Money(Item):
+    def __init__(self, name, trade):
+        super(Money, self).__init__(name)
+        self.trade = trade
+
+    def trade(self):
+        print("You have made a trade with %s" % self.name)
+
+
 class Weapon(Item):
     def __init__(self, name, damage):
         super(Weapon, self).__init__(name)
@@ -25,6 +34,23 @@ class Map(KeyItem):
         super(Map, self).__init__(name)
         self.check = check
 
+class Map2(KeyItem):
+    def __init__(self, name, check):
+        super(Map2, self).__init__(name)
+        self.check = check
+
+
+class CarKeys(KeyItem):
+    def __init__(self, name, ignite):
+        super(CarKeys, self).__init__(name)
+        self.ignite = ignite
+        
+
+class ToyBone(KeyItem):
+    def __init__(self, name, throw):
+        super(ToyBone, self).__init__(name)
+        self.throw = throw
+
 
 class Healing(Item):
     def __init__(self, name, restoration, cure, buffs):
@@ -32,6 +58,19 @@ class Healing(Item):
         self.restoration = restoration
         self.cure = cure
         self.buffs = buffs
+
+    def heal(self):
+        print("You gained %s thanks to a potion." % self.buffs)
+
+        
+class Fruit(Healing):
+    def __init__(self, name, restoration, cure, buffs):
+        super(Fruit, self).__init__(name, restoration, cure, buffs)
+
+
+class Potion(Healing):
+    def __init__(self, name, restoration, cure, buffs):
+        super(Potion, self).__init__(name, restoration, cure, buffs)
 
     def heal(self):
         print("You gained %s thanks to a potion." % self.buffs)
@@ -120,7 +159,18 @@ class Sword(Weapon):
     def attack(self):
         print("You attack with your %s." % self.name)
 
+
 class TrainingSword(Sword):
+    def __init__(self, name, damage, close_range, speed_up):
+        super(TrainingSword, self).__init__(name, damage, close_range, speed_up)
+
+    def attack(self):
+        print("You attack with your %s" % self.name)
+
+class Rapier(Sword):
+    def __init__(self, name, close_range, speed_up, armor_piercing):
+        super(Rapier, self).__init__(name, close_range, speed_up)
+        self.armor_piercing = armor_piercing
 
 
 class Lance(Weapon):
@@ -175,27 +225,29 @@ HomeEntrance = Room("HomeEntrance", 'Garage', 'Living Room', 'Construction Site'
                     "The thieves left a treasure map you found a while back, they thought it was fake probably,"
                     "your only hope is to find treausre fast. You can go east, south, and north.", None)
 HomeLivingRoom = Room("HomeLivingRoom", 'Home', 'Kitchen', None, None,
-                      "The best part of the day ruined. You can go North or West.", )
+                      "The best part of the day ruined. You can go North or West.", [TrainingSword])
 Job = Room("Job", None, 'InTown', None, 'ConstructionSite', "Where you spend most of your day."
                         "You don't really hate it. Just no one to talk to. "
-                        "You can go west or south.")
+                        "You can go west or south.", None)
 Kitchen = Room("Kitchen", 'Home-Living Room', None, None, None,
-               "Nothing usual here, get your food before your adventure, can't rely on fast food. You can go east.")
+               "Nothing usual here, get your food before your adventure, can't rely on fast food. You can go east.",
+               [Fruit, Fruit, Fruit, Fruit, Fruit])
 Freeway = Room("Freeway", 'Garage', 'Playground', None, 'Intown',
-               "Not much traffic today. You can go West, South or East")
+               "Not much traffic today. You can go West, South or East", None)
 Playground = Room("Playground", None, 'Park', 'Freeway', None,
-                  "Don't stay here for to long, the map has a X somewhere around here. You can go south or north.")
+                  "Don't stay here for to long, the map has a X somewhere around here. You can go south or north.",
+                  [ToyBone])
 InTown = Room("In Town", 'Store', 'Airport', 'Job', 'Freeway',
-              "Busy as ever, the town leads to mutiple directions. You can go North, East, South or West.")
+              "Busy as ever, the town leads to mutiple directions. You can go North, East, South or West.", None)
 Garage = Room("Garage", 'InTown', None, None, 'HomeEntrance',
-              "You only use your car for buniess trips so you mainly walk. You can go east or west.")
+              "You only use your car for buniess trips so you mainly walk. You can go east or west.", [CarKeys])
 Store = Room("Store", None, None, None, 'Intown',
-             "A store where you can but items. You can go west.")
+             "A store where you can buy items. You can go west.", [Potion,])
 AbandonedPark_Entrance = Room("Abandonded Entrance-Front", None, 'Forest', 'Playground', None,
                               "It is closed off to the public since wild animals live here. It is also very huge."
-                              "Get ready to protect yourself. You can go North or South.")
+                              "Get ready to protect yourself. You can go North or South.", None)
 AbandonedPark = Room("Abandoned Park", None, 'Forest', 'AbandonedPark_Entrance', None,
-                     "You have a chance of running into enemies. Stay on guard. You can go south or north.")
+                     "You have a chance of running into enemies. Stay on guard. You can go south or north.", None)
 Forest = Room("Forest", None, None, None, "Shrine",
               "The X on the map is just west of here.")
 Shrine = Room("Shrine", 'Forest', None, None, None,
