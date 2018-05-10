@@ -50,8 +50,8 @@
       <file leaf-file-name="Christopher V - CYOA.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Christopher V - CYOA.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="426">
-              <caret line="174" column="0" lean-forward="false" selection-start-line="174" selection-start-column="0" selection-end-line="174" selection-end-column="0" />
+            <state relative-caret-position="295">
+              <caret line="324" column="102" lean-forward="true" selection-start-line="324" selection-start-column="102" selection-end-line="324" selection-end-column="102" />
               <folding />
             </state>
           </provider>
@@ -154,8 +154,8 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -710,8 +710,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Christopher V - CYOA.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="426">
-          <caret line="174" column="0" lean-forward="false" selection-start-line="174" selection-start-column="0" selection-end-line="174" selection-end-column="0" />
+        <state relative-caret-position="295">
+          <caret line="324" column="102" lean-forward="true" selection-start-line="324" selection-start-column="102" selection-end-line="324" selection-end-column="102" />
           <folding />
         </state>
       </provider>

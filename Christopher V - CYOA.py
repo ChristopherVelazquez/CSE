@@ -34,6 +34,7 @@ class Map(KeyItem):
         super(Map, self).__init__(name)
         self.check = check
 
+
 class Map2(KeyItem):
     def __init__(self, name, check):
         super(Map2, self).__init__(name)
@@ -50,6 +51,12 @@ class ToyBone(KeyItem):
     def __init__(self, name, throw):
         super(ToyBone, self).__init__(name)
         self.throw = throw
+
+
+class StrangeEye(KeyItem):
+    def __init__(self, name, place):
+        super(StrangeEye, self).__init__(name)
+        self.place = place
 
 
 class Healing(Item):
@@ -87,7 +94,7 @@ class Armor(Item):
 
 
 class Magic(Item):
-    def __init__(self, name, magic_damage, close_range, far_range,):
+    def __init__(self, name, magic_damage, close_range, far_range):
         super(Magic, self).__init__(name)
         self.magic_damage = magic_damage
         self.close_range = close_range
@@ -95,6 +102,17 @@ class Magic(Item):
 
     def magic_attack(self):
         print("You attacked with %s" % self.name)
+
+
+class Minor(Magic):
+    def __init__(self, name, magic_damage, close_range, far_range):
+        super(Minor, self).__init__(name, magic_damage, close_range, far_range)
+
+
+class Drain(Magic):
+    def __init__(self, name, magic_damage, close_range, far_range, life_drain):
+        super(Drain, self).__init__(name, magic_damage, close_range, far_range)
+        self.life_drain = life_drain
 
 
 class Accessories(Item):
@@ -167,20 +185,29 @@ class TrainingSword(Sword):
     def attack(self):
         print("You attack with your %s" % self.name)
 
+
 class Rapier(Sword):
-    def __init__(self, name, close_range, speed_up, armor_piercing):
-        super(Rapier, self).__init__(name, close_range, speed_up)
+    def __init__(self, name, damage, close_range, speed_up, armor_piercing, beast_slaying):
+        super(Rapier, self).__init__(name, damage, close_range, speed_up)
         self.armor_piercing = armor_piercing
+        self.beast_slaying = beast_slaying
 
 
 class Lance(Weapon):
-    def __init__(self, name, damage, close_range, defense_up):
+    def __init__(self, name, damage, close_range, defense_up, durability):
         super(Lance, self).__init__(name, damage)
         self.close_range = close_range
         self.defense_up = defense_up
+        self.durability = durability
 
     def attack(self):
         print("You attack with your %s." % self.name)
+
+
+class GoldSpear(Lance):
+    def __init__(self, name, damage, close_range, far_range, defense_up, durability):
+        super(GoldSpear, self).__init__(name, damage, close_range, defense_up, durability)
+        self.far_range = far_range
 
 
 class Axe(Weapon):
@@ -242,18 +269,18 @@ InTown = Room("In Town", 'Store', 'Airport', 'Job', 'Freeway',
 Garage = Room("Garage", 'InTown', None, None, 'HomeEntrance',
               "You only use your car for buniess trips so you mainly walk. You can go east or west.", [CarKeys])
 Store = Room("Store", None, None, None, 'Intown',
-             "A store where you can buy items. You can go west.", [Potion,])
+             "A store where you can buy items. You can go west.", [Potion, Rapier])
 AbandonedPark_Entrance = Room("Abandonded Entrance-Front", None, 'Forest', 'Playground', None,
                               "It is closed off to the public since wild animals live here. It is also very huge."
                               "Get ready to protect yourself. You can go North or South.", None)
 AbandonedPark = Room("Abandoned Park", None, 'Forest', 'AbandonedPark_Entrance', None,
                      "You have a chance of running into enemies. Stay on guard. You can go south or north.", None)
 Forest = Room("Forest", None, None, None, "Shrine",
-              "The X on the map is just west of here.")
+              "The X on the map is just west of here.", None)
 Shrine = Room("Shrine", 'Forest', None, None, None,
-              "There's a shovel near the old shrine. You can go east.")
+              "There's a shovel near the old shrine. You can go east.", [StrangeEye])
 Airport = Room("Airport", 'Egypt', 'Mexico', 'In town', 'Japan',
-               "Depending on which one you choose, the difficulty may change, choose north to back.")
+               "Depending on which one you choose, the difficulty may change, choose north to back.", None)
 
 
 class Character(object):
@@ -284,7 +311,7 @@ class Character(object):
             print("You died...")
 
 
-You = Character(0, 25, "The main character of the story.", 'MC', 7, 5, 4, 2, 'Medicine, Sword', 'Multi Wield', 1)
+You = Character(0, 25, "The main character of the story.", 'MC', 7, 5, 4, 2, [TrainingSword, Fruit], 'Multi Wield', 1)
 Rabbid_Wolf = Character(25, 15, "A wolf that looks very hungry.", 'Rabbid Wolf', 2, 3, 5, 0, 'Fangs', None, None)
 Mummy = Character(40, 35, "A mummy brought back to life by some kind of sinister force.", 'Mummy', 7, 5, 2, 0,
                   'Undead Hand', None, None)
@@ -295,14 +322,14 @@ Servants = Character(51, 35, "Servants of the God of Death.", 'Servants', 8, 5, 
 Minatours = Character(58, 40, "Half Man, half monsters who wield gaint axes.", 'Minatours', 7, 5, 3, 0, "Giant Axe",
                       None, None)
 Souls = Character(44, 30, "Cursed souls forced to fight.", 'Soldier', 4, 4, 4, 2, 'Rusted Axe', None, None)
-Aknes = Character(0, 25, "A large serpent like creature.", 'Aknes', 3, 3, 6, 1, 'Poisonius Fangs', None, None)
+Aknes = Character(38, 25, "A large serpent like creature.", 'Aknes', 3, 3, 6, 1, 'Poisonius Fangs', None, None)
 Mini_Phoenix = Character(31, 20, "Offsprings of a legendary bird.", 'Mini_Phoenix', 3, 2, 4, 2, 'Talons', None, None)
 Phoenix = Character(0, 50, "The flaming bird of legend.", 'Phoenix', 10, 10, 10, 5, 'Flaming Talons', 'Reproduce', None)
 Anubis = Character(0, 60, "The God of Death himself.", 'Anubis', 25, 15, 12, 7, 'Sycthe', 'Command', None)
 Saiper = Character(0, 45, 'Giant spider-Like, web maker.', 'Saiber', 8, 5, 7, 1, 'Poisinous Claws', 'Trap', None)
 Pharaoh = Character(0, 50, "Their bodies are barely decomposed.", 'Pharaoh',  9, 7, 4, 2, 'Staff of Order', 'Command',
                     None)
-Elites = Character(0, 40, "Great Soldiers of the undead.", 'Elites', 8, 8, 8, 4, 'Gold Spear', None, None)
+Elites = Character(0, 40, "Great Soldiers of the undead.", 'Elites', 8, 8, 8, 4, [HeroMedal, GoldSpear], None, None)
 
 
 current_node = ConstructionSite
