@@ -15,10 +15,26 @@ class Money(Item):
         print("You have made a trade with %s" % self.name)
 
 
+class MonsterWeapon(Item):
+    def __init__(self, close_range, damage, name):
+        super(MonsterWeapon, self).__init__(name)
+        self.close_range = close_range
+        self.damage = damage
+
+
+class Fangs(MonsterWeapon):
+    def __init__(self, close_range, damage, name):
+        super(Fangs, self).__init__(close_range, damage, name)
+
+    def attacked(self):
+        print("You were attacked by a Wolf with %s" % self.name)
+
+
 class Weapon(Item):
-    def __init__(self, name, damage):
+    def __init__(self, name, damage, durability):
         super(Weapon, self).__init__(name)
         self.damage = damage
+        self.durability = durability
 
     def equip(self):
         print("You equip a %s" % self.name)
@@ -160,8 +176,8 @@ class SwiftBand(Accessories):
 
 
 class Bow(Weapon):
-    def __init__(self, name, damage, far_ranged):
-        super(Bow, self).__init__(name, damage)
+    def __init__(self, name, damage, far_ranged, durability):
+        super(Bow, self).__init__(name, damage, durability)
         self.far_ranged = far_ranged
 
     def attack(self):
@@ -169,8 +185,8 @@ class Bow(Weapon):
 
 
 class Sword(Weapon):
-    def __init__(self, name, damage, close_range, speed_up):
-        super(Sword, self).__init__(name, damage)
+    def __init__(self, name, damage, close_range, speed_up, durability):
+        super(Sword, self).__init__(name, damage, durability)
         self.close_range = close_range
         self.speed_up = speed_up
 
@@ -179,23 +195,23 @@ class Sword(Weapon):
 
 
 class TrainingSword(Sword):
-    def __init__(self, name, damage, close_range, speed_up):
-        super(TrainingSword, self).__init__(name, damage, close_range, speed_up)
+    def __init__(self, name, damage, close_range, speed_up, durability):
+        super(TrainingSword, self).__init__(name, damage, close_range, speed_up, durability)
 
     def attack(self):
         print("You attack with your %s" % self.name)
 
 
 class Rapier(Sword):
-    def __init__(self, name, damage, close_range, speed_up, armor_piercing, beast_slaying):
-        super(Rapier, self).__init__(name, damage, close_range, speed_up)
+    def __init__(self, name, damage, close_range, speed_up, durability, armor_piercing, beast_slaying):
+        super(Rapier, self).__init__(name, damage, close_range, speed_up, durability)
         self.armor_piercing = armor_piercing
         self.beast_slaying = beast_slaying
 
 
 class Lance(Weapon):
     def __init__(self, name, damage, close_range, defense_up, durability):
-        super(Lance, self).__init__(name, damage)
+        super(Lance, self).__init__(name, damage, durability)
         self.close_range = close_range
         self.defense_up = defense_up
         self.durability = durability
@@ -211,8 +227,8 @@ class GoldSpear(Lance):
 
 
 class Axe(Weapon):
-    def __init__(self, name, damage, close_range, damage_up):
-        super(Axe, self).__init__(name, damage)
+    def __init__(self, name, damage, close_range, damage_up, durability):
+        super(Axe, self).__init__(name, damage, durability)
         self.close_range = close_range
         self.defense = damage_up
 
@@ -312,7 +328,7 @@ class Character(object):
 
 
 You = Character(0, 25, "The main character of the story.", 'MC', 7, 5, 4, 2, [TrainingSword, Fruit], 'Multi Wield', 1)
-Rabbid_Wolf = Character(25, 15, "A wolf that looks very hungry.", 'Rabbid Wolf', 2, 3, 5, 0, 'Fangs', None, None)
+Rabbid_Wolf = Character(25, 15, "A wolf that looks very hungry.", 'Rabbid Wolf', 2, 3, 5, 0, [Fangs], None, None)
 Mummy = Character(40, 35, "A mummy brought back to life by some kind of sinister force.", 'Mummy', 7, 5, 2, 0,
                   'Undead Hand', None, None)
 Skeleton = Character(38, 25, "A pile of bones reanimated by black magic.", 'Skeleton', 5, 4, 3, 0, 'Rusted Sword',
@@ -324,7 +340,7 @@ Minatours = Character(58, 40, "Half Man, half monsters who wield gaint axes.", '
 Souls = Character(44, 30, "Cursed souls forced to fight.", 'Soldier', 4, 4, 4, 2, 'Rusted Axe', None, None)
 Aknes = Character(38, 25, "A large serpent like creature.", 'Aknes', 3, 3, 6, 1, 'Poisonius Fangs', None, None)
 Mini_Phoenix = Character(31, 20, "Offsprings of a legendary bird.", 'Mini_Phoenix', 3, 2, 4, 2, 'Talons', None, None)
-Phoenix = Character(0, 50, "The flaming bird of legend.", 'Phoenix', 10, 10, 10, 5, 'Flaming Talons', 'Reproduce', None)
+Phoenix = Character(0, 50, "The flaming bird of legend.", 'Phoenix', 10, 10, 10, 5, [], 'Reproduce', None)
 Anubis = Character(0, 60, "The God of Death himself.", 'Anubis', 25, 15, 12, 7, 'Sycthe', 'Command', None)
 Saiper = Character(0, 45, 'Giant spider-Like, web maker.', 'Saiber', 8, 5, 7, 1, 'Poisinous Claws', 'Trap', None)
 Pharaoh = Character(0, 50, "Their bodies are barely decomposed.", 'Pharaoh',  9, 7, 4, 2, 'Staff of Order', 'Command',
