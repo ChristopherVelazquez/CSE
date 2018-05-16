@@ -109,6 +109,17 @@ class Armor(Item):
         print("You have protection thanks to your %s" % self.name)
 
 
+class StandardArmor(Armor):
+    def __init__(self, name, defense, magic_defense):
+        super(StandardArmor, self).__init__(name, defense, magic_defense)
+
+
+class HeavyArmor(Armor):
+    def __init__(self, name, defense, magic_defense, speed_down):
+        super(HeavyArmor, self).__init__(name, defense, magic_defense)
+        self.speed_down = speed_down
+
+
 class Magic(Item):
     def __init__(self, name, magic_damage, close_range, far_range):
         super(Magic, self).__init__(name)
@@ -194,6 +205,11 @@ class Sword(Weapon):
         print("You attack with your %s." % self.name)
 
 
+class RustedSword(Sword):
+    def __init__(self, name, damage, close_range, speed_up, durability):
+        super(RustedSword, self).__init__(name, damage, close_range, speed_up, durability)
+
+
 class TrainingSword(Sword):
     def __init__(self, name, damage, close_range, speed_up, durability):
         super(TrainingSword, self).__init__(name, damage, close_range, speed_up, durability)
@@ -220,6 +236,16 @@ class Lance(Weapon):
         print("You attack with your %s." % self.name)
 
 
+class DemonLance(Lance):
+    def __init__(self, name, damage, close_range, defense_up, durability):
+        super(DemonLance, self).__init__(name, damage, close_range, defense_up, durability)
+
+
+class StoneLance(Lance):
+    def __init__(self, name, damage, close_range, defense_up, durability):
+        super(StoneLance, self).__init__(name, damage, close_range, defense_up, durability)
+
+
 class GoldSpear(Lance):
     def __init__(self, name, damage, close_range, far_range, defense_up, durability):
         super(GoldSpear, self).__init__(name, damage, close_range, defense_up, durability)
@@ -234,6 +260,16 @@ class Axe(Weapon):
 
     def attack(self):
         print("You attack with your %s." % self.name)
+        
+        
+class GiantAxe(Axe):
+    def __init__(self, name, damage, close_range, damage_up, durability):
+        super(GiantAxe, self).__init__(name, damage, close_range, damage_up, durability)
+
+
+class RustedAxe(Axe):
+    def __init__(self, name, damage, close_range, damage_up, durability):
+        super(RustedAxe, self).__init__(name, damage, close_range, damage_up, durability)
 
 
 class MagicRobe(Armor):
@@ -243,6 +279,42 @@ class MagicRobe(Armor):
 
     def protection(self):
         print("You took less magic damage, and gained more magic thanks to your %s" % self.name)
+
+
+class UndeadHand(MonsterWeapon):
+    def __init__(self, close_range, damage, name):
+        super(UndeadHand, self).__init__(close_range, damage, name)
+        
+                
+class PoisoniousFangs(MonsterWeapon):
+    def __init__(self, close_range, damage, name):
+        super(PoisoniousFangs, self).__init__(close_range, damage, name)
+
+
+class PoisoniousClaws(MonsterWeapon):
+    def __init__(self, close_range, damage, name):
+        super(PoisoniousClaws, self).__init__(close_range, damage, name)
+    
+    
+class Talons(MonsterWeapon):
+    def __init__(self, close_range, damage, name):
+        super(Talons, self).__init__(close_range, damage, name)
+
+
+class FlamingTalons(MonsterWeapon):
+    def __init__(self, close_range, damage, name, effects):
+        super(FlamingTalons, self).__init__(close_range, damage, name)
+        self.effects = effects
+
+
+class StaffOfOrder(MonsterWeapon):
+    def __init__(self, close_range, damage, name):
+        super(StaffOfOrder, self).__init__(close_range, damage, name)
+
+
+class Scythe(MonsterWeapon):
+    def __init__(self, close_range, damage, name):
+        super(Scythe, self).__init__(close_range, damage, name)
 
 
 class Room(object):
@@ -260,19 +332,19 @@ class Room(object):
         current_node = globals()[getattr(self, direction)]
 
 
-ConstructionSite = Room("ConstructionSite", 'Job', 'Home', None, None,
+ConstructionSite = Room("ConstructionSite", 'Job', 'HomeEntrance', None, None,
                         "It's just a building in contruction however something catches your eye with a shine."
                         "You can go east or south.", None)
-HomeEntrance = Room("HomeEntrance", 'Garage', 'Living Room', 'Construction Site', None,
+HomeEntrance = Room("HomeEntrance", 'Garage', 'HomeLivingRoom', 'Construction Site', None,
                     "Home sweet Home except that your house been ruined!"
                     "The thieves left a treasure map you found a while back, they thought it was fake probably,"
                     "your only hope is to find treausre fast. You can go east, south, and north.", None)
-HomeLivingRoom = Room("HomeLivingRoom", 'Home', 'Kitchen', None, None,
+HomeLivingRoom = Room("HomeLivingRoom", 'HomeEntrance', 'Kitchen', None, None,
                       "The best part of the day ruined. You can go North or West.", [TrainingSword])
 Job = Room("Job", None, 'InTown', None, 'ConstructionSite', "Where you spend most of your day."
                         "You don't really hate it. Just no one to talk to. "
                         "You can go west or south.", None)
-Kitchen = Room("Kitchen", 'Home-Living Room', None, None, None,
+Kitchen = Room("Kitchen", 'HomeLiving Room', None, None, None,
                "Nothing usual here, get your food before your adventure, can't rely on fast food. You can go east.",
                [Fruit, Fruit, Fruit, Fruit, Fruit])
 Freeway = Room("Freeway", 'Garage', 'Playground', None, 'Intown',
@@ -284,19 +356,27 @@ InTown = Room("In Town", 'Store', 'Airport', 'Job', 'Freeway',
               "Busy as ever, the town leads to mutiple directions. You can go North, East, South or West.", None)
 Garage = Room("Garage", 'InTown', None, None, 'HomeEntrance',
               "You only use your car for buniess trips so you mainly walk. You can go east or west.", [CarKeys])
-Store = Room("Store", None, None, None, 'Intown',
+Store = Room("Store", None, None, None, 'InTown',
              "A store where you can buy items. You can go west.", [Potion, Rapier])
-AbandonedPark_Entrance = Room("Abandonded Entrance-Front", None, 'Forest', 'Playground', None,
+AbandonedPark_Entrance = Room("AbandondedPark_Entrance", None, 'Forest', 'Playground', None,
                               "It is closed off to the public since wild animals live here. It is also very huge."
                               "Get ready to protect yourself. You can go North or South.", None)
-AbandonedPark = Room("Abandoned Park", None, 'Forest', 'AbandonedPark_Entrance', None,
+AbandonedPark = Room("AbandonedPark", None, 'Forest', 'AbandonedPark_Entrance', None,
                      "You have a chance of running into enemies. Stay on guard. You can go south or north.", None)
 Forest = Room("Forest", None, None, None, "Shrine",
               "The X on the map is just west of here.", None)
 Shrine = Room("Shrine", 'Forest', None, None, None,
               "There's a shovel near the old shrine. You can go east.", [StrangeEye])
-Airport = Room("Airport", 'Egypt', 'Mexico', 'In town', 'Japan',
+Airport = Room("Airport", 'Egypt', None, 'InTown', None,
                "Depending on which one you choose, the difficulty may change, choose north to back.", None)
+Cairo = Room("Cairo", None, 'Airport', None, 'Giza', "The Map had told you to go to Giza but only for those how dare,"
+             "go north to go back", None)
+Giza = Room("Giza", 'Cairo', None, None, 'GreatPyramidEnt', "A little bit more to the west to be at the X of the map.",
+            None)
+GreatPyramidEnt = Room("GreatPyramidEnt", 'Giza', 'Floor-1','Floor+1', None, "There seems to be another key "
+                       "required to go down.", None)
+Floor1 = Room('Floor1', None, 'GreatPyramidEnt', 'Floor2',)
+
 
 
 class Character(object):
@@ -330,22 +410,23 @@ class Character(object):
 You = Character(0, 25, "The main character of the story.", 'MC', 7, 5, 4, 2, [TrainingSword, Fruit], 'Multi Wield', 1)
 Rabbid_Wolf = Character(25, 15, "A wolf that looks very hungry.", 'Rabbid Wolf', 2, 3, 5, 0, [Fangs], None, None)
 Mummy = Character(40, 35, "A mummy brought back to life by some kind of sinister force.", 'Mummy', 7, 5, 2, 0,
-                  'Undead Hand', None, None)
-Skeleton = Character(38, 25, "A pile of bones reanimated by black magic.", 'Skeleton', 5, 4, 3, 0, 'Rusted Sword',
+                  [UndeadHand], None, None)
+Skeleton = Character(38, 25, "A pile of bones reanimated by black magic.", 'Skeleton', 5, 4, 3, 0, [RustedSword],
                      None, None)
-Gargoyle = Character(34, 25, "Demons summoned from other world.", 'Gargoyle', 4, 3, 2, 0, 'Stone_Lance', None, None)
-Servants = Character(51, 35, "Servants of the God of Death.", 'Servants', 8, 5, 4, 3, 'Minor', 'Summon', None)
-Minatours = Character(58, 40, "Half Man, half monsters who wield gaint axes.", 'Minatours', 7, 5, 3, 0, "Giant Axe",
+Gargoyle = Character(34, 25, "Demons summoned from other world.", 'Gargoyle', 4, 3, 2, 0, [StoneLance], None, None)
+Servants = Character(51, 35, "Servants of the God of Death.", 'Servants', 8, 5, 4, 3, [Minor], 'Summon', None)
+Minatours = Character(58, 40, "Half Man, half monsters who wield gaint axes.", 'Minatours', 7, 5, 3, 0, [GiantAxe],
                       None, None)
-Souls = Character(44, 30, "Cursed souls forced to fight.", 'Soldier', 4, 4, 4, 2, 'Rusted Axe', None, None)
-Aknes = Character(38, 25, "A large serpent like creature.", 'Aknes', 3, 3, 6, 1, 'Poisonius Fangs', None, None)
-Mini_Phoenix = Character(31, 20, "Offsprings of a legendary bird.", 'Mini_Phoenix', 3, 2, 4, 2, 'Talons', None, None)
-Phoenix = Character(0, 50, "The flaming bird of legend.", 'Phoenix', 10, 10, 10, 5, [], 'Reproduce', None)
-Anubis = Character(0, 60, "The God of Death himself.", 'Anubis', 25, 15, 12, 7, 'Sycthe', 'Command', None)
-Saiper = Character(0, 45, 'Giant spider-Like, web maker.', 'Saiber', 8, 5, 7, 1, 'Poisinous Claws', 'Trap', None)
-Pharaoh = Character(0, 50, "Their bodies are barely decomposed.", 'Pharaoh',  9, 7, 4, 2, 'Staff of Order', 'Command',
+Souls = Character(44, 30, "Cursed souls forced to fight.", 'Soldier', 4, 4, 4, 2, [RustedAxe], None, None)
+Aknes = Character(38, 25, "A large serpent like creature.", 'Aknes', 3, 3, 6, 1, [PoisoniousFangs], None, None)
+Mini_Phoenix = Character(31, 20, "Offsprings of a legendary bird.", 'Mini_Phoenix', 3, 2, 4, 2, [Talons], None, None)
+Phoenix = Character(0, 50, "The flaming bird of legend.", 'Phoenix', 10, 10, 10, 5, [FlamingTalons], 'Reproduce', None)
+Anubis = Character(0, 60, "The God of Death himself.", 'Anubis', 25, 15, 12, 7, [Scythe], 'Command', None)
+Saiper = Character(0, 45, 'Giant spider-Like, web maker.', 'Saiber', 8, 5, 7, 1, [PoisoniousClaws], 'Trap', None)
+Pharaoh = Character(0, 50, "Their bodies are barely decomposed.", 'Pharaoh',  9, 7, 4, 2, [StaffOfOrder], 'Command',
                     None)
 Elites = Character(0, 40, "Great Soldiers of the undead.", 'Elites', 8, 8, 8, 4, [HeroMedal, GoldSpear], None, None)
+Demons = Character(0, 30, "Great Demons of the Underworld", 'Demon', 6, 5, 4, 2, [DemonLance], None, None)
 
 
 current_node = ConstructionSite
